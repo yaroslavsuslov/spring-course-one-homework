@@ -16,7 +16,7 @@
         <th>Description</th>
     </tr>
 
-    <c:forEach items="${categories}" var="category">
+    <c:forEach items="${categoriesList}" var="category">
         <tr>
             <c:url value="/categories/edit" var="editUrl">
                 <c:param name="id" value="${category.id}"/>

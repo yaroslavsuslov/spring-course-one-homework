@@ -2,6 +2,7 @@ package ru.geekbrains.persistence.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -23,6 +24,10 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToMany
+    @JoinTable(name = "product_to_client", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
+    private List<Client> clientList;
 
     // Нам пришлось добавить это поле, т.к. мы не можем передать целый класс Category как часть формы
     // На следующем занятии разберем, как решить эту проблему
@@ -83,5 +88,13 @@ public class Product {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public List<Client> getClientList() {
+        return clientList;
+    }
+
+    public void setClientList(List<Client> clientList) {
+        this.clientList = clientList;
     }
 }
