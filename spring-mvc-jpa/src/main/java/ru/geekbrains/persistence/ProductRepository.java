@@ -45,4 +45,12 @@ public class ProductRepository {
         em.close();
         return product;
     }
+
+    public Product findById(Long id) {
+        EntityManager em = sessionFactory.createEntityManager();
+
+        Product product = em.find(Product.class, id);
+        em.close();
+        return product;
+    }
 }

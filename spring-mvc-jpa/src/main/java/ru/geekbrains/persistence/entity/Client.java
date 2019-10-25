@@ -14,11 +14,16 @@ public class Client {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "product_to_client", joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> productList;
 
     public Client() {
+    }
+
+    public void addProduct(Product product) {
+        productList.add(product);
+        product.getClientList().add(this);
     }
 
     public Long getId() {

@@ -25,8 +25,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToMany
-    @JoinTable(name = "product_to_client", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
+    @ManyToMany(mappedBy = "productList", fetch = FetchType.EAGER)
     private List<Client> clientList;
 
     // Нам пришлось добавить это поле, т.к. мы не можем передать целый класс Category как часть формы
@@ -41,6 +40,8 @@ public class Product {
         this.name = name;
         this.description = description;
     }
+
+
 
     public Long getId() {
         return id;

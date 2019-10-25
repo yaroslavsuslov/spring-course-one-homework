@@ -12,6 +12,9 @@ import ru.geekbrains.persistence.ProductRepository;
 import ru.geekbrains.persistence.entity.Client;
 import ru.geekbrains.persistence.entity.Product;
 
+import java.util.Map;
+import java.util.logging.LoggingMXBean;
+
 @Controller
 @RequestMapping("clients")
 public class ClientController {
@@ -58,15 +61,19 @@ public class ClientController {
         return "redirect:/clients";
     }
 
-    @RequestMapping(value = "list", method = RequestMethod.POST)
-    public String addProductToClient(@ModelAttribute("client") Client client, @ModelAttribute("Product") Product product) {
-           client.getProductList().add(product);
-           return "client";
+    @RequestMapping(value = "editProduct", method = RequestMethod.POST)
+    public String addProductToClient(@RequestParam("clientid") Long clientId, @RequestParam("product") Long id) {
+        Product product = productRepository.findById(id);
+        Client client = clientRepository.findById(clientId);
+        client.addProduct(product);
+        clientRepository.update(client);
+        return "redirect:/clients";
     }
+
 
     @RequestMapping(value = "goods", method = RequestMethod.GET)
     public String showClientsProducts(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("clientProducts", clientRepository.findById(id));
+        model.addAttribute("client", clientRepository.findById(id));
         return "goods";
     }
 }

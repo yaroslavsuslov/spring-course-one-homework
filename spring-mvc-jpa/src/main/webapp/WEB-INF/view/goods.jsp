@@ -20,7 +20,7 @@
         <th>Price</th>
     </tr>
 
-    <c:forEach items="${clientProducts.productList}" var="prod">
+    <c:forEach items="${client.productList}" var="prod">
         <tr>
             <td>${prod.id}</td>
             <td>${prod.name}</td>

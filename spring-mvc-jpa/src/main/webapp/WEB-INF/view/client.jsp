@@ -18,22 +18,23 @@
     <input type="submit" />
 </form>
 
-<form action="list" method="post">
+<form action="editProduct" method="post" >
+    <input type="hidden" name="clientid" id="clientid" value="${client.id}">
     Select a Product:&nbsp;
-    <select name="category">
+    <select name="product">
         <c:forEach items="${allProducts}" var="prod">
-            <option value="${prod.id}">${prod.name}</option>
+            <option value="${prod.id}">${prod.name} + ${prod.price} </option>
         </c:forEach>
     </select>
     <br/><br/>
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Submit"/>
 </form>
 
 <c:url value="/clients/goods" var="url">
     <c:param name="id" value="${client.id}"/>
 </c:url>
 
-<p>Перейти к списку продуктов данного клиента</p><a href="${url}">${client.name}</a>
+<p>Перейти к списку продуктов данного клиента</p><a href="${url}">К списку продуктов</a>
 
 
 
