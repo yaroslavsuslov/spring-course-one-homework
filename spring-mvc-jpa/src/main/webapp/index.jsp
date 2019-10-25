@@ -8,9 +8,8 @@
     <ul>
         <c:url value="/categories/" var="categoriesUrl" />
         <li><a href="${categoriesUrl}">Categories and Products</a></li>
-        <%-- Сделайте, чтобы за этим пунктом списка был сисок клиентов --%>
-        <%-- с возможностью их добавления и редактирования --%>
-        <li>Customers</li>
+        <c:url value="/clients/" var="clientsUrl" />
+        <li><a href="${clientsUrl}">Clients</a></li>
     </ul>
 </body>
 </html>

@@ -1,0 +1,12 @@
+ru\geekbrains\controller\CategoryController.class
+ru\geekbrains\controller\ProductController.class
+ru\geekbrains\controller\ClientController.class
+ru\geekbrains\persistence\ProductRepository.class
+ru\geekbrains\persistence\ClientRepository.class
+ru\geekbrains\PersistenceConfig.class
+ru\geekbrains\persistence\entity\Category.class
+ru\geekbrains\WebAppConfig.class
+ru\geekbrains\persistence\entity\Product.class
+ru\geekbrains\persistence\entity\Client.class
+ru\geekbrains\WebInitializer.class
+ru\geekbrains\persistence\CategoryRepository.class

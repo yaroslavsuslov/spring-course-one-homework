@@ -2,6 +2,7 @@ package ru.geekbrains.persistence.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -24,6 +25,9 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToMany(mappedBy = "productList", fetch = FetchType.EAGER)
+    private List<Client> clientList;
+
     // Нам пришлось добавить это поле, т.к. мы не можем передать целый класс Category как часть формы
     // На следующем занятии разберем, как решить эту проблему
     @Transient
@@ -36,6 +40,8 @@ public class Product {
         this.name = name;
         this.description = description;
     }
+
+
 
     public Long getId() {
         return id;
@@ -83,5 +89,13 @@ public class Product {
 
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public List<Client> getClientList() {
+        return clientList;
+    }
+
+    public void setClientList(List<Client> clientList) {
+        this.clientList = clientList;
     }
 }

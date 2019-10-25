@@ -23,7 +23,7 @@ public class CategoryController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String allCategories(Model model) {
-        model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("categoriesList", categoryRepository.findAll());
         return "categories";
     }
 
