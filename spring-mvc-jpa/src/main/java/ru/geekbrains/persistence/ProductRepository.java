@@ -1,56 +1,26 @@
 package ru.geekbrains.persistence;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import ru.geekbrains.persistence.entity.Product;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
-@Service
-public class ProductRepository {
 
-    private final SessionFactory sessionFactory;
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Autowired
-    public ProductRepository(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    List<Product> getAllByCategory_Id(Long categoryId);
 
-    public void create(Product product) {
-        EntityManager em = sessionFactory.createEntityManager();
-        em.getTransaction().begin();
+    @Query("select b from Product b where b.price = (select max(a.price) from Product a)")
+    List<Product> findProductByMaxPrice();
 
-        em.persist(product);
+    @Query("select b from Product b where b.price = (select max(a.price) from Product a where a.category.id = :categoryId)")
+    List<Product> findProductByMaxPrice(@Param("categoryId") Long categoryId);
 
-        em.getTransaction().commit();
-        em.close();
-    }
+    @Query("select b from Product b where b.price = (select min(a.price) from Product a)")
+    List<Product> findProductByMinPrice();
 
-    public void update(Product product) {
-        EntityManager em = sessionFactory.createEntityManager();
-        em.getTransaction().begin();
-
-        em.merge(product);
-
-        em.getTransaction().commit();
-        em.close();
-    }
-
-    public List<Product> findAll() {
-        EntityManager em = sessionFactory.createEntityManager();
-
-        List<Product> product = em.createQuery("from Product", Product.class).getResultList();
-        em.close();
-        return product;
-    }
-
-    public Product findById(Long id) {
-        EntityManager em = sessionFactory.createEntityManager();
-
-        Product product = em.find(Product.class, id);
-        em.close();
-        return product;
-    }
+    @Query("select b from Product b where b.price = (select min(a.price) from Product a where a.category.id = :categoryId)")
+    List<Product> findProductByMinPrice(@Param("categoryId") Long categoryId);
 }
