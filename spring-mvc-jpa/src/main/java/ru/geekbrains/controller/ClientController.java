@@ -43,7 +43,9 @@ public class ClientController {
 
     @RequestMapping(value = "edit", method = RequestMethod.GET)
     public String editForm(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("client", clientRepository.findById(id));
+        Client client =  clientRepository.findById(id).
+                orElseThrow(() -> new IllegalStateException("Client not found"));
+        model.addAttribute("client", client);
         model.addAttribute("action", "edit");
         model.addAttribute("allProducts", productRepository.findAll());
         return "client";
@@ -51,29 +53,33 @@ public class ClientController {
 
     @RequestMapping(value = "edit", method = RequestMethod.POST)
     public String editForm(@ModelAttribute("client") Client client) {
-        clientRepository.update(client);
+        clientRepository.save(client);
         return "client";
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public String createClient(@ModelAttribute("client") Client client) {
-        clientRepository.create(client);
+        clientRepository.save(client);
         return "redirect:/clients";
     }
 
     @RequestMapping(value = "editProduct", method = RequestMethod.POST)
     public String addProductToClient(@RequestParam("clientid") Long clientId, @RequestParam("product") Long id) {
-        Product product = productRepository.findById(id);
-        Client client = clientRepository.findById(clientId);
+        Product product = productRepository.findById(id).
+                orElseThrow(() -> new IllegalStateException("Product not found"));
+        Client client = clientRepository.findById(clientId).
+                orElseThrow(() -> new IllegalStateException("Client not found"));
         client.addProduct(product);
-        clientRepository.update(client);
+        clientRepository.save(client);
         return "redirect:/clients";
     }
 
 
     @RequestMapping(value = "goods", method = RequestMethod.GET)
     public String showClientsProducts(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("client", clientRepository.findById(id));
+        Client client = clientRepository.findById(id).
+                orElseThrow(() -> new IllegalStateException("Client not found"));
+        model.addAttribute("client", client);
         return "goods";
     }
 }

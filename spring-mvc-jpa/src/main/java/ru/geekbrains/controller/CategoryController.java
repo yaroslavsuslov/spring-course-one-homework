@@ -36,20 +36,22 @@ public class CategoryController {
 
     @RequestMapping(value = "edit", method = RequestMethod.GET)
     public String editForm(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("category", categoryRepository.findById(id));
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Category not found"));
+        model.addAttribute("category", category);
         model.addAttribute("action", "edit");
         return "category";
     }
 
     @RequestMapping(value = "edit", method = RequestMethod.POST)
     public String editForm(@ModelAttribute("category") Category category) {
-        categoryRepository.update(category);
+        categoryRepository.save(category);
         return "category";
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public String createCategory(@ModelAttribute("category") Category category) {
-        categoryRepository.create(category);
+        categoryRepository.save(category);
         return "redirect:/categories";
     }
 }
