@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Client</title>
+</head>
+<body>
+<form th:object="${client}" th:action="@{/clients/save}" method="post">
+    <input type="hidden" name="id" id="id" th:field="*{id}">
+    <p>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" th:field="*{name}"/>
+    </p>
+    <input type="submit"/>
+</form>
+
+<form th:object="${client}" th:action="@{/clients/editProduct?clientid={clientid}(clientid=${client.id})}" method="post">
+    <input type="hidden" name="clientid" id="clientid" th:field="*{id}">
+    Select a Product:&nbsp;
+    <label>
+        <select  th:field="${allProducts}"  id="dropOperator" name="id">
+            <option value="0">Choose product</option>
+            <option th:each="prod : ${allProducts}" th:value="${prod.id}" th:selected="${prod.id}" th:text="${prod.name} + ${prod.price}"></option>
+        </select>
+    </label>
+    <input type="submit"/>
+</form>
+
+<a th:href="@{/clients/goods?id={clientId}(clientId=${client.id})}">Client's product list</a>
+</body>
+</html>

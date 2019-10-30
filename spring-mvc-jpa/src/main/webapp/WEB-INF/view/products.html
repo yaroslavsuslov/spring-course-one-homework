@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Price</th>
+    </tr>
+
+<!--    <form th:action="@{}" method="get">-->
+<!--        <label for="categoryFilter">Category filter</label>-->
+<!--        <select id="categoryFilter" name="categoryId">-->
+<!--            <option value="${-1}" ${param['categoryId'] == null || param['categoryId'] == -1 ? 'selected' : ''}></option>-->
+<!--            <c:forEach items="${categories}" var="category">-->
+<!--                <option value="${category.id}" ${param['categoryId'] == category.id ? 'selected' : ''} >${category.name}</option>-->
+<!--            </c:forEach>-->
+<!--        </select>-->
+<!--        <label for="priceFilter">Price filter</label>-->
+<!--        <select id="priceFilter" name="priceFilter">-->
+<!--            <option value="${"empty"}" ${param['priceFilter'] == null || param['priceFilter'] == "empty" ? 'selected' : ''}></option>-->
+<!--            <c:forEach items="${priceFilterValues}" var="price">-->
+<!--                <option value="${price}" ${param['priceFilter'] == price ? 'selected' : ''} >${price}</option>-->
+<!--            </c:forEach>-->
+<!--        </select>-->
+<!--        <input type="submit" value="Apply" />-->
+<!--    </form>-->
+
+    <tr th:each="prod : ${products}">
+        <td th:text="${prod.id}">1</td>
+
+        <td th:text="${prod.name}">prod</td>
+
+        <td th:text="${prod.description}">descr</td>
+
+        <td th:text="${prod.category.name}">name</td>
+
+        <td th:text="${prod.price}">price</td>
+    </tr>
+</body>
+</html>

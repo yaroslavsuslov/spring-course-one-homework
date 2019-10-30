@@ -57,22 +57,28 @@ public class ClientController {
         return "client";
     }
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @RequestMapping(value = "save", method = RequestMethod.POST)
     public String createClient(@ModelAttribute("client") Client client) {
         clientRepository.save(client);
         return "redirect:/clients";
     }
 
     @RequestMapping(value = "editProduct", method = RequestMethod.POST)
-    public String addProductToClient(@RequestParam("clientid") Long clientId, @RequestParam("product") Long id) {
-        Product product = productRepository.findById(id).
-                orElseThrow(() -> new IllegalStateException("Product not found"));
-        Client client = clientRepository.findById(clientId).
-                orElseThrow(() -> new IllegalStateException("Client not found"));
-        client.addProduct(product);
-        clientRepository.save(client);
+    public String updateFoos(@RequestParam Map<String,String> allParams) {
+        System.out.println("Parameters are " + allParams.entrySet());
         return "redirect:/clients";
     }
+
+//    @RequestMapping(value = "editProduct", method = RequestMethod.POST)
+//    public String addProductToClient(@RequestParam("clientid") Long clientId, @RequestParam("dropOperator") Long id) {
+//        Product product = productRepository.findById(id).
+//                orElseThrow(() -> new IllegalStateException("Product not found"));
+//        Client client = clientRepository.findById(clientId).
+//                orElseThrow(() -> new IllegalStateException("Client not found"));
+//        client.addProduct(product);
+//        clientRepository.save(client);
+//        return "redirect:/clients";
+//    }
 
 
     @RequestMapping(value = "goods", method = RequestMethod.GET)

@@ -93,9 +93,9 @@ public class ProductController {
     }
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String createProduct(@ModelAttribute("product") Product product) {
-        product.setCategory(categoryRepository.findById(product.getCategoryId()).
-                orElseThrow(() -> new IllegalStateException("Product not found")));
+    public String createProduct(@ModelAttribute("product") Product product, @RequestParam("categoryId") Long categoryId) {
+        product.setCategory(categoryRepository.findById(categoryId).
+                orElseThrow(() -> new IllegalStateException("Category not found")));
         productRepository.save(product);
         return "redirect:/categories/edit?id=" + product.getCategory().getId();
     }
