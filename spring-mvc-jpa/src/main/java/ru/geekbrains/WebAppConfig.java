@@ -46,7 +46,7 @@ public class WebAppConfig implements WebMvcConfigurer {
         resolver.setTemplateEngine(templateEngine(htmlTemplateResolver()));
         resolver.setContentType("text/html");
         resolver.setCharacterEncoding("UTF-8");
-        resolver.setViewNames(new String[] {"*"});
+        resolver.setViewNames(new String[]{"*"});
         return resolver;
     }
 

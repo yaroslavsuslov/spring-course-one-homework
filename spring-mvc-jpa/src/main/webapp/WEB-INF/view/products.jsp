@@ -32,7 +32,7 @@
                 <option value="${price}" ${param['priceFilter'] == price ? 'selected' : ''} >${price}</option>
             </c:forEach>
         </select>
-        <input type="submit" value="Apply" />
+        <input type="submit" value="Apply"/>
     </form>
 
     <c:forEach items="${products}" var="prod">

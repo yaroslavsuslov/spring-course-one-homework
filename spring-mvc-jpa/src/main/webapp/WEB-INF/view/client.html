@@ -12,21 +12,46 @@
         <label for="name">Name</label>
         <input type="text" id="name" name="name" th:field="*{name}"/>
     </p>
-    <input type="submit"/>
-</form>
-
-<form th:object="${client}" th:action="@{/clients/editProduct?clientid={clientid}(clientid=${client.id})}" method="post">
-    <input type="hidden" name="clientid" id="clientid" th:field="*{id}">
-    Select a Product:&nbsp;
     <label>
-        <select  th:field="${allProducts}"  id="dropOperator" name="id">
-            <option value="0">Choose product</option>
-            <option th:each="prod : ${allProducts}" th:value="${prod.id}" th:selected="${prod.id}" th:text="${prod.name} + ${prod.price}"></option>
+        Category filter:
+        <select id="productId" name="productId">
+            <option th:value="${-1}"></option>
+            <option th:each="prod : ${allProducts}" th:value="${prod.id}" th:text="${prod.name} + ${prod.price}">
+                product
+            </option>
         </select>
     </label>
     <input type="submit"/>
 </form>
 
-<a th:href="@{/clients/goods?id={clientId}(clientId=${client.id})}">Client's product list</a>
+<!--<form th:object="${client}" th:action="@{/clients/save}" method="post">-->
+<!--    <input type="hidden" name="clientid" id="clientid" th:field="*{id}">-->
+<!--    <label>-->
+<!--        Category filter:-->
+<!--        <select  id="productId" name="productId">-->
+<!--            <option th:value="${-1}"></option>-->
+<!--            <option th:each="prod : ${allProducts}" th:value="${prod.id}" th:text="${prod.name} + ${prod.price}">product</option>-->
+<!--        </select>-->
+<!--    </label>-->
+<!--    <input type="submit"/>-->
+<!--</form>-->
+
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+    </tr>
+
+    <tr th:each="prod : ${client.productList}">
+        <td th:text="${prod.id}">1</td>
+        <td th:text="${prod.name}">Product</td>
+        <td th:text="${prod.description}">Desc</td>
+        <td th:text="${prod.price}">123.00</td>
+    </tr>
+</table>
 </body>
 </html>
+
+<!--editProduct?clientid={clientid}(clientid=${client.id})-->

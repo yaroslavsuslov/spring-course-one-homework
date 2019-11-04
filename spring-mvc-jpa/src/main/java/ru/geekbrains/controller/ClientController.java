@@ -11,7 +11,10 @@ import ru.geekbrains.persistence.ClientRepository;
 import ru.geekbrains.persistence.ProductRepository;
 import ru.geekbrains.persistence.entity.Client;
 import ru.geekbrains.persistence.entity.Product;
+import ru.geekbrains.service.ClientService;
+import ru.geekbrains.service.ProductService;
 
+import java.awt.color.ProfileDataException;
 import java.util.Map;
 import java.util.logging.LoggingMXBean;
 
@@ -19,55 +22,50 @@ import java.util.logging.LoggingMXBean;
 @RequestMapping("clients")
 public class ClientController {
 
-    private final ClientRepository clientRepository;
-    private final ProductRepository productRepository;
+    private final ClientService clientService;
+    private final ProductService productService;
 
     @Autowired
-    public ClientController(ClientRepository clientRepository, ProductRepository productRepository) {
-        this.clientRepository = clientRepository;
-        this.productRepository = productRepository;
+    public ClientController(ClientService clientService, ProductService productService) {
+        this.clientService = clientService;
+        this.productService = productService;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String allClients(Model model) {
-        model.addAttribute("clientsList", clientRepository.findAll());
+        model.addAttribute("clientsList", clientService.findAll());
         return "clients";
     }
 
     @RequestMapping(value = "create", method = RequestMethod.GET)
     public String createClientForm(Model model) {
-        model.addAttribute("category", new Client());
+        model.addAttribute("client", new Client());
         model.addAttribute("action", "create");
         return "client";
     }
 
     @RequestMapping(value = "edit", method = RequestMethod.GET)
     public String editForm(@RequestParam("id") Long id, Model model) {
-        Client client =  clientRepository.findById(id).
-                orElseThrow(() -> new IllegalStateException("Client not found"));
-        model.addAttribute("client", client);
+        model.addAttribute("client", clientService.findByIdWithProducts(id).orElseThrow(() ->
+                new IllegalStateException("Client not found")));
         model.addAttribute("action", "edit");
-        model.addAttribute("allProducts", productRepository.findAll());
-        return "client";
-    }
-
-    @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public String editForm(@ModelAttribute("client") Client client) {
-        clientRepository.save(client);
+        model.addAttribute("allProducts", productService.findAll());
         return "client";
     }
 
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public String createClient(@ModelAttribute("client") Client client) {
-        clientRepository.save(client);
+    public String editForm(@ModelAttribute("client") Client clientForm, @RequestParam(name = "productId", required = false) Long id) {
+        System.out.println("Parameter ID = " + id + " || " + "Client ID: " + clientForm.getId() + " || " + "clientName: " + clientForm.getName() + " || " + "client: " + clientForm);
+        Client client = clientService.findByIdWithProducts(clientForm.getId()).orElseThrow(() ->
+                new IllegalStateException("Product not found"));
+        if (id != null && id != -1) {
+            client.addProduct(productService.productReprToProduct(productService.getProductReprById(id).orElseThrow(() ->
+                    new IllegalStateException("Product not found"))));
+        }
+        clientService.save(client);
         return "redirect:/clients";
     }
 
-    @RequestMapping(value = "editProduct", method = RequestMethod.POST)
-    public String updateFoos(@RequestParam Map<String,String> allParams) {
-        System.out.println("Parameters are " + allParams.entrySet());
-        return "redirect:/clients";
-    }
 
 //    @RequestMapping(value = "editProduct", method = RequestMethod.POST)
 //    public String addProductToClient(@RequestParam("clientid") Long clientId, @RequestParam("dropOperator") Long id) {
@@ -81,11 +79,9 @@ public class ClientController {
 //    }
 
 
-    @RequestMapping(value = "goods", method = RequestMethod.GET)
-    public String showClientsProducts(@RequestParam("id") Long id, Model model) {
-        Client client = clientRepository.findById(id).
-                orElseThrow(() -> new IllegalStateException("Client not found"));
-        model.addAttribute("client", client);
-        return "goods";
-    }
+//    @RequestMapping(value = "goods", method = RequestMethod.GET)
+//    public String showClientsProducts(@RequestParam("id") Long id, Model model) {
+//        model.addAttribute("client", clientService.findByIdWithProducts(id));
+//        return "goods";
+//    }
 }
