@@ -2,7 +2,6 @@ package ru.geekbrains.persistence.entity;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "CATEGORY")
@@ -18,7 +17,7 @@ public class Category {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "category")
     private List<Product> products;
 
     public Category() {

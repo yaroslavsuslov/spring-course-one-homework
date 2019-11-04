@@ -7,16 +7,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.geekbrains.persistence.ClientRepository;
-import ru.geekbrains.persistence.ProductRepository;
+import ru.geekbrains.controller.repr.ProductRepr;
 import ru.geekbrains.persistence.entity.Client;
 import ru.geekbrains.persistence.entity.Product;
 import ru.geekbrains.service.ClientService;
 import ru.geekbrains.service.ProductService;
-
-import java.awt.color.ProfileDataException;
-import java.util.Map;
-import java.util.logging.LoggingMXBean;
 
 @Controller
 @RequestMapping("clients")
@@ -59,9 +54,13 @@ public class ClientController {
         Client client = clientService.findByIdWithProducts(clientForm.getId()).orElseThrow(() ->
                 new IllegalStateException("Product not found"));
         if (id != null && id != -1) {
-            client.addProduct(productService.productReprToProduct(productService.getProductReprById(id).orElseThrow(() ->
-                    new IllegalStateException("Product not found"))));
+            ProductRepr productRepr = productService.getProductReprById(id);
+            System.out.println("ProductRepr: " + productRepr.getId() + " : " + productRepr.getName() + " : " + productRepr.getCategoryId());
+            Product product = productService.productReprToProduct(productRepr);
+            System.out.println("Product: " + product.getId() + " : " + product.getName() + " : " + product.getCategory() + " : " + product.getClientList());
+            client.addProduct(product);
         }
+        System.out.println("Client: " + client.getId() + " : " + client.getName() + " : " + client.getProductList());
         clientService.save(client);
         return "redirect:/clients";
     }

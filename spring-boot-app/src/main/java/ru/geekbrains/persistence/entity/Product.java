@@ -25,13 +25,13 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToMany(mappedBy = "productList", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "productList")
     private List<Client> clientList;
 
     // Нам пришлось добавить это поле, т.к. мы не можем передать целый класс Category как часть формы
     // На следующем занятии разберем, как решить эту проблему
-    @Transient
-    private Long categoryId;
+//    @Transient
+//    private Long categoryId;
 
     public Product() {
     }
@@ -82,13 +82,13 @@ public class Product {
         this.category = category;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
+//    public Long getCategoryId() {
+//        return categoryId;
+//    }
+//
+//    public void setCategoryId(Long categoryId) {
+//        this.categoryId = categoryId;
+//    }
 
     public List<Client> getClientList() {
         return clientList;

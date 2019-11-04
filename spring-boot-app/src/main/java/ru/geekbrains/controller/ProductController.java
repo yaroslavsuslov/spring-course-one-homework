@@ -1,6 +1,8 @@
 package ru.geekbrains.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,16 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.geekbrains.controller.repr.ProductFilter;
 import ru.geekbrains.controller.repr.ProductRepr;
-import ru.geekbrains.persistence.CategoryRepository;
-import ru.geekbrains.persistence.ProductRepository;
-import ru.geekbrains.persistence.entity.Category;
-import ru.geekbrains.persistence.entity.Product;
 import ru.geekbrains.service.CategoryService;
 import ru.geekbrains.service.ProductService;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("products")
@@ -37,16 +37,42 @@ public class ProductController {
         this.categoryService = categoryService;
     }
 
+//    @RequestMapping(value = "", method = RequestMethod.GET)
+//    public String products(@RequestParam(name = "categoryId", required = false) Long categoryId,
+//                           @RequestParam(name = "priceFrom", required = false) BigDecimal priceFrom,
+//                           @RequestParam(name = "priceTo", required = false) BigDecimal priceTo,
+//                           Model model) {
+//        ProductFilter productFilter = new ProductFilter(categoryId != null ? categoryId : -1, priceFrom, priceTo);
+//
+//        model.addAttribute("filter", productFilter);
+//        model.addAttribute("categories", categoryService.findAllWithoutProducts());
+//        model.addAttribute("products", productService.filterProducts(productFilter));
+//
+//        return "products";
+//    }
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String products(@RequestParam(name = "categoryId", required = false) Long categoryId,
                            @RequestParam(name = "priceFrom", required = false) BigDecimal priceFrom,
                            @RequestParam(name = "priceTo", required = false) BigDecimal priceTo,
+                           @RequestParam("page") Optional<Integer> page,
+                           @RequestParam("size") Optional<Integer> size,
                            Model model) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
         ProductFilter productFilter = new ProductFilter(categoryId != null ? categoryId : -1, priceFrom, priceTo);
-
         model.addAttribute("filter", productFilter);
         model.addAttribute("categories", categoryService.findAllWithoutProducts());
-        model.addAttribute("products", productService.filterProducts(productFilter));
+        Page<ProductRepr> productReprPage = productService.getProductReprPages(PageRequest.of(currentPage - 1, pageSize), productFilter);
+        model.addAttribute("products", productReprPage);
+
+        int totalPages = productReprPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
 
         return "products";
     }
@@ -59,8 +85,7 @@ public class ProductController {
 
     @RequestMapping(value = "edit", method = RequestMethod.GET)
     public String editProduct(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("product", productService.getProductReprById(id)
-                .orElseThrow(() -> new IllegalStateException("Product not found")));
+        model.addAttribute("product", productService.getProductReprById(id));
         return "product";
     }
 

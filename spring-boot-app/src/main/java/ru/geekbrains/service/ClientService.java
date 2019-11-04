@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.persistence.ClientRepository;
-import ru.geekbrains.persistence.entity.Category;
 import ru.geekbrains.persistence.entity.Client;
 
 import java.util.List;

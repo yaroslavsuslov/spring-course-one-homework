@@ -32,6 +32,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "where p.id = :id")
     Optional<ProductRepr> getProductReprById(@Param("id") Long id);
 
+    @Query("select c " +
+            "from Product c " +
+            "left join fetch c.clientList p " +
+            "where (c.id = :id)" +
+            "order by p.id")
+    Optional<Product> getProductById(@Param("id") Long id);
+
     @Query("select new ru.geekbrains.controller.repr.ProductRepr(p.id, p.name, p.description, p.price, p.category.id, p.category.name) " +
             "from Product p " +
             "where (:categoryId = -1L or p.category.id = :categoryId) and " +

@@ -1,6 +1,9 @@
 package ru.geekbrains.controller.repr;
 
+import ru.geekbrains.persistence.entity.Client;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductRepr {
 
@@ -15,6 +18,8 @@ public class ProductRepr {
     private Long categoryId;
 
     private String categoryName;
+
+    private List<Client> clientList;
 
     public ProductRepr() {
     }
@@ -74,5 +79,13 @@ public class ProductRepr {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public List<Client> getClientList() {
+        return clientList;
+    }
+
+    public void setClientList(List<Client> clientList) {
+        this.clientList = clientList;
     }
 }

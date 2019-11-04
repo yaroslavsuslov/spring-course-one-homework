@@ -1,7 +1,5 @@
 package ru.geekbrains.persistence.entity;
 
-import ru.geekbrains.controller.repr.ProductRepr;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,7 +14,7 @@ public class Client {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany()
     @JoinTable(name = "product_to_client", joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> productList;
 
