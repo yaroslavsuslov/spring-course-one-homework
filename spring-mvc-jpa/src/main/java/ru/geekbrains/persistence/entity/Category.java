@@ -2,6 +2,7 @@ package ru.geekbrains.persistence.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "CATEGORY")
@@ -24,6 +25,12 @@ public class Category {
     }
 
     public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Category(Long id, String name, String description) {
+        this.id = id;
         this.name = name;
         this.description = description;
     }

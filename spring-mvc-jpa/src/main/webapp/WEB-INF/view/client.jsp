@@ -13,12 +13,12 @@
     <input type="hidden" name="id" id="id" value="${client.id}">
     <p>
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" value="${client.name}"  />
+        <input type="text" id="name" name="name" value="${client.name}"/>
     </p>
-    <input type="submit" />
+    <input type="submit"/>
 </form>
 
-<form action="editProduct" method="post" >
+<form action="editProduct" method="post">
     <input type="hidden" name="clientid" id="clientid" value="${client.id}">
     Select a Product:&nbsp;
     <select name="product">
@@ -35,8 +35,6 @@
 </c:url>
 
 <p>Перейти к списку продуктов данного клиента</p><a href="${url}">К списку продуктов</a>
-
-
 
 
 </body>

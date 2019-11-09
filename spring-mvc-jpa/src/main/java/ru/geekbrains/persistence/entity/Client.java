@@ -1,5 +1,7 @@
 package ru.geekbrains.persistence.entity;
 
+import ru.geekbrains.controller.repr.ProductRepr;
+
 import javax.persistence.*;
 import java.util.List;
 

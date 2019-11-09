@@ -12,13 +12,13 @@
     <input type="hidden" name="id" id="id" value="${category.id}">
     <p>
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" value="${category.name}" />
+        <input type="text" id="name" name="name" value="${category.name}"/>
     </p>
     <p>
         <label for="description">Description</label>
-        <input type="text" id="description" name="description" value="${category.description}" />
+        <input type="text" id="description" name="description" value="${category.description}"/>
     </p>
-    <input type="submit" />
+    <input type="submit"/>
 </form>
 
 <c:url value="/products/create" var="createUrl">

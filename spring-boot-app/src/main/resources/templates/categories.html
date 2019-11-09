@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>First Spring MVC View</title>
+</head>
+
+<body>
+
+<a href="create">Create new Category</a>
+
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+
+    <tr th:each="category : ${categoriesList}">
+        <td th:text="${category.id}">1</td>
+
+        <td>
+            <a th:href="@{/categories/edit?id={id}(id=${category.id})}" th:text="${category.name}">Product</a>
+        </td>
+
+        <td th:text="${category.description}">Description</td>
+    </tr>
+
+</table>
+</body>
+
+</html>
