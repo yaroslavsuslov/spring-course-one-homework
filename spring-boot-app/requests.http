@@ -1,0 +1,54 @@
+GET http://localhost:8080/api/category/all
+
+###
+
+GET http://localhost:8080/api/category/id/2
+
+###
+
+POST http://localhost:8080/api/category/
+Content-Type: application/json
+
+{
+  "name": "BooksTest",
+  "description": "Books",
+  "products": []
+}
+
+###
+
+DELETE http://localhost:8080/api/category/id/8
+
+###################################################################
+// products
+
+GET http://localhost:8080/api/product/all
+
+###
+
+GET http://localhost:8080/api/product/id/2
+
+###
+
+GET http://localhost:8080/api/product/category/id/8
+
+###
+
+POST http://localhost:8080/api/product/
+Content-Type: application/json
+
+{
+  "name": "testProduct",
+  "description": "testProduct",
+  "price": "100",
+  "category": {
+    "id": 8
+  },
+  "clientList": []
+}
+
+###
+
+DELETE http://localhost:8080/api/product/id/17
+
+###
