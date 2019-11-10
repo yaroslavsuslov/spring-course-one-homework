@@ -1,5 +1,9 @@
 package ru.geekbrains.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,6 +18,7 @@ public class Client {
     @Column(unique = true, nullable = false)
     private String name;
 
+    @JsonBackReference
     @ManyToMany()
     @JoinTable(name = "product_to_client", joinColumns = @JoinColumn(name = "client_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> productList;

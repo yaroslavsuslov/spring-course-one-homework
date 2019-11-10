@@ -1,7 +1,13 @@
 package ru.geekbrains.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.List;
+
 
 @Entity
 @Table(name = "CATEGORY")
@@ -17,6 +23,7 @@ public class Category {
     @Column
     private String description;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 

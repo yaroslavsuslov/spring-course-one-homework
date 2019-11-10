@@ -61,6 +61,7 @@ public class ProductService {
         return productRepository.filterProducts(filter.getCategoryId(), filter.getPriceFrom(), filter.getPriceTo());
     }
 
+    @Transactional(readOnly = true)
     public Page<ProductRepr> getProductReprPages(Pageable pageable, ProductFilter filter) {
         List<ProductRepr> productReprList = filterProducts(filter);
         int pageSize = pageable.getPageSize();
@@ -80,6 +81,23 @@ public class ProductService {
     @Transactional
     public void save(ProductRepr productRepr) {
         productRepository.save(productReprToProduct(productRepr));
+    }
+
+    @Transactional
+    public void saveByName(Product product) {
+        Long id = productRepository.findIdByName(product.getName()).
+                orElse(null);
+        if (id == null) {
+            productRepository.save(product);
+        } else {
+            product.setId(id);
+            productRepository.save(product);
+        }
+    }
+
+    @Transactional
+    public void delete(long id) {
+        productRepository.deleteById(id);
     }
 
     public Product productReprToProduct(ProductRepr productRepr) {
