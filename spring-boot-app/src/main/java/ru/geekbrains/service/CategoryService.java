@@ -29,8 +29,30 @@ public class CategoryService {
         return categoryRepository.findByIdWithProducts(id);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<Category> findByIdWithoutProducts(Long id) {
+        return categoryRepository.findByIdWithoutProducts(id);
+    }
+
     @Transactional
     public void save(Category category) {
         categoryRepository.save(category);
+    }
+
+    @Transactional
+    public void saveByName(Category category) {
+        Long id = categoryRepository.findIdByName(category.getName()).
+                orElse(null);
+        if (id == null) {
+            save(category);
+        } else {
+            category.setId(id);
+            save(category);
+        }
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        categoryRepository.deleteById(id);
     }
 }

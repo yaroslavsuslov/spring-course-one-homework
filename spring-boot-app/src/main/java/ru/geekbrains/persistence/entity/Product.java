@@ -1,5 +1,10 @@
 package ru.geekbrains.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,17 +26,14 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
+
     @ManyToMany(mappedBy = "productList")
     private List<Client> clientList;
-
-    // Нам пришлось добавить это поле, т.к. мы не можем передать целый класс Category как часть формы
-    // На следующем занятии разберем, как решить эту проблему
-//    @Transient
-//    private Long categoryId;
 
     public Product() {
     }

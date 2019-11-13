@@ -48,4 +48,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<ProductRepr> filterProducts(@Param("categoryId") Long categoryId,
                                      @Param("priceFrom") BigDecimal priceFrom,
                                      @Param("priceTo") BigDecimal priceTo);
+
+    @Query("select p.id from Product p where p.name = :name")
+    Optional<Long> findIdByName(@Param("name") String name);
 }

@@ -20,4 +20,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
             "where c.id = :id")
     Optional<Category> findByIdWithProducts(@Param("id") Long id);
 
+    @Query("select c.id from Category c where c.name = :name")
+    Optional<Long> findIdByName(@Param("name") String name);
+
+    @Query("select new Category(c.id, c.name, c.description) from Category c where c.id = :id")
+    Optional<Category> findByIdWithoutProducts(@Param("id") Long id);
 }
