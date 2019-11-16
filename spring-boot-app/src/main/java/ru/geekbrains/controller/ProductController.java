@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
-@RequestMapping("products")
+@RequestMapping("/admin/products")
 public class ProductController {
 
     private final ProductService productService;
