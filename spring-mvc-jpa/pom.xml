@@ -21,7 +21,7 @@
         <spring.data.version>2.2.0.RELEASE</spring.data.version>
 
         <hibernate.version>5.3.5.Final</hibernate.version>
-        <hibernate.validator>5.4.1.Final</hibernate.validator>
+        <hibernate.validator>5.4.2.Final</hibernate.validator>
 
         <org.thymeleaf-version>3.0.9.RELEASE</org.thymeleaf-version>
         <org.thymeleaf.extras-version>3.0.1.RELEASE</org.thymeleaf.extras-version>
